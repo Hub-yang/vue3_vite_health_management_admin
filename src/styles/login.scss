@@ -1,0 +1,167 @@
+.body {
+  /* 100%窗口高度 */
+  height: 100vh;
+  /* 弹性布局 居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 渐变背景 */
+  background: linear-gradient(200deg, #72afd3, #96fbc4);
+  // 渐变色动画
+  // animation: color-change-3x 6s linear infinite alternate both;
+}
+
+.container {
+  width: auto;
+  padding: 120px 20px 20px 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  // 毛玻璃模糊
+  backdrop-filter: blur(15px);
+  position: absolute;
+  top: 29%;
+}
+
+.login-box {
+  /* 相对定位 */
+  position: relative;
+  width: 320px;
+}
+
+.input-box {
+  /* 弹性布局 垂直排列 */
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box input {
+  height: 40px;
+  border-radius: 3px;
+  /* 缩进15像素 */
+  text-indent: 15px;
+  outline: none;
+  border: none;
+  margin-bottom: 15px;
+  caret-color: lightseagreen;
+}
+
+.input-box input:focus {
+  outline: 1px solid lightseagreen;
+}
+
+.input-box button {
+  width: 100%;
+  height: 45px;
+  border: 0;
+  background-image: linear-gradient(to right,
+      lightseagreen 0%,
+      #00cdac 51%,
+      #02aab0 100%);
+  background-size: 200% auto;
+  border-radius: 3px;
+  color: #fff;
+  letter-spacing: 1em;
+  text-indent: 1em;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: ease 0.4s;
+}
+
+.input-box button:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 接下来是猫头鹰的样式 */
+.owl {
+  width: 211px;
+  height: 108px;
+  /* 背景图片 */
+  background: url('../assets//images//owl-login.png') no-repeat;
+  /* 绝对定位 */
+  position: absolute;
+  top: -100px;
+  /* 水平居中 */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.owl .hand {
+  width: 34px;
+  height: 34px;
+  border-radius: 40px;
+  background-color: #472d20;
+  /* 绝对定位 */
+  position: absolute;
+  left: 12px;
+  bottom: -8px;
+  /* 沿Y轴缩放0.6倍（压扁） */
+  transform: scaleY(0.6);
+  /* 动画过渡 */
+  transition: 0.3s ease-out;
+}
+
+.owl .hand.hand-r {
+  left: 170px;
+}
+
+.owl.password .hand {
+  transform: translateX(42px) translateY(-15px) scale(0.7);
+}
+
+.owl.password .hand.hand-r {
+  transform: translateX(-42px) translateY(-15px) scale(0.7);
+}
+
+.owl .arms {
+  position: absolute;
+  top: 58px;
+  width: 100%;
+  height: 41px;
+  overflow: hidden;
+}
+
+.owl .arms .arm {
+  width: 40px;
+  height: 65px;
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  background: url('../assets/images/owl-login-arm.png') no-repeat;
+  transform: rotate(-20deg);
+  transition: 0.3s ease-out;
+}
+
+.owl .arms .arm.arm-r {
+  transform: rotate(20deg) scaleX(-1);
+  left: 158px;
+}
+
+.owl.password .arms .arm {
+  transform: translateY(-40px) translateX(40px);
+}
+
+.owl.password .arms .arm.arm-r {
+  transform: translateY(-40px) translateX(-40px) scaleX(-1);
+}
+
+// 动画
+@keyframes color-change-3x {
+  0% {
+    background-color: #19dcea;
+  }
+
+  50% {
+    background-color: #72afd3;
+  }
+
+  100% {
+    background-color: #96fbc4;
+  }
+}
