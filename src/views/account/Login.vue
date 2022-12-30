@@ -11,7 +11,7 @@
             <el-form ref="account_form" :model="data.form" :rules="data.form_rules" style="width: 100%">
               <el-form-item prop="username">
                 <label class="form-label">用户名</label>
-                <el-input v-model="data.form.username" />
+                <el-input v-model="data.form.username" autocomplete="on" />
               </el-form-item>
               <el-form-item prop="password">
                 <label class="form-label">密码</label>
@@ -46,6 +46,7 @@ import baseFooter from '@/components/pageLayout/baseFooter.vue'
 import { useUserStore } from '@/store/modules/user'
 import { validate_email, validate_password } from '@/utils/validate'
 import { getPassword, setPassword, removePassword } from '@/utils/rempassword'
+import { getUserName } from '@/utils/token'
 import router from '@/router/index'
 
 const userStore = useUserStore()
@@ -86,11 +87,13 @@ const data = reactive({
   },
 })
 
-// 获取密码
+// 获取回显账密
 onBeforeMount(() => {
   const password = getPassword()
-  if (password) {
+  const username = getUserName()
+  if (password && username) {
     data.form.password = Base64.decode(getPassword())
+    data.form.username = username
     data.form.rempassword = true
   }
 })
