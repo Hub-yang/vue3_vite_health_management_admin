@@ -1,40 +1,37 @@
 <template>
   <div class="container">
     <el-row style="height: 100%">
+      <!-- 左侧 -->
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="lmain">
-          <el-row>
-            <el-col :span="24">
-              <div class="content">
-                <p class="welcome-text">欢迎登录</p>
-                <p class="info-text">输入邮箱和密码以登录</p>
-                <el-form ref="account_form" :model="data.form" :rules="data.form_rules" style="width: 100%">
-                  <el-form-item prop="username">
-                    <label class="form-label">用户名</label>
-                    <el-input v-model="data.form.username" />
-                  </el-form-item>
-                  <el-form-item prop="password">
-                    <label class="form-label">密码</label>
-                    <el-input v-model="data.form.password" />
-                  </el-form-item>
-                  <el-form-item>
-                    <el-switch v-model="data.form.rempassword" id="switch" />
-                    <label class="form-label" for="switch">记住密码</label>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="danger" class="el-button-block" @click="submitForm">login</el-button>
-                  </el-form-item>
-                </el-form>
-              </div></el-col
-            >
-          </el-row>
-          <el-row style="width: 100%">
-            <el-col :span="24">
-              <baseFooter />
-            </el-col>
-          </el-row>
+          <!-- 表单区域 -->
+          <div class="content">
+            <p class="welcome-text">欢迎登录</p>
+            <p class="info-text">输入邮箱和密码以登录</p>
+            <el-form ref="account_form" :model="data.form" :rules="data.form_rules" style="width: 100%">
+              <el-form-item prop="username">
+                <label class="form-label">用户名</label>
+                <el-input v-model="data.form.username" />
+              </el-form-item>
+              <el-form-item prop="password">
+                <label class="form-label">密码</label>
+                <el-input v-model="data.form.password" type="password" show-password />
+              </el-form-item>
+              <el-form-item>
+                <el-switch v-model="data.form.rempassword" id="switch" style="margin-right: 5px" />
+                <label class="form-label" for="switch">记住密码</label>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="danger" class="el-button-block" @click="submitForm">登 录</el-button>
+              </el-form-item>
+              <p class="last-text">没有账号？点击注册</p>
+            </el-form>
+          </div>
+          <!-- 页脚区域 -->
+          <baseFooter />
         </div>
       </el-col>
+      <!-- 右侧 -->
       <el-col :xs="0" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="rmain">
           <el-image style="height: 100%; width: 100%; border-radius: 10px" :src="bgImg" fit="fill" />
@@ -48,6 +45,7 @@
 import baseFooter from '@/components/pageLayout/baseFooter.vue'
 import { useUserStore } from '@/store/modules/user'
 import { validate_email, validate_password } from '@/utils/validate'
+import { getPassword, setPassword, removePassword } from '@/utils/rempassword'
 import router from '@/router/index'
 
 const userStore = useUserStore()
@@ -88,9 +86,24 @@ const data = reactive({
   },
 })
 
+// 获取密码
+onBeforeMount(() => {
+  const password = getPassword()
+  if (password) {
+    data.form.password = Base64.decode(getPassword())
+    data.form.rempassword = true
+  }
+})
+
 const submitForm = () => {
   account_form.value.validate((valid: boolean) => {
     if (valid) {
+      // 判断是否存储密码
+      if (data.form.rempassword) {
+        setPassword(Base64.encode(data.form.password))
+      } else {
+        removePassword()
+      }
       handleLogin(data.form.username, data.form.password)
     } else {
       return false
@@ -118,47 +131,5 @@ function handleLogin(username: string, password: string) {
 </script>
 
 <style scoped lang="scss">
-// @import '@/styles/login.scss';
-.container {
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  background: #fff;
-  .lmain {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    .content {
-      height: 500px;
-      width: 400px;
-      border: 1px solid #000;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      .welcome-text {
-        font-size: xx-large;
-        font-weight: bolder;
-        background-image: linear-gradient(to right, #61c7f8, #4688f7);
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      .info-text {
-        font-size: 1rem;
-        font-weight: lighter;
-        color: $title-color;
-      }
-    }
-  }
-  .rmain {
-    height: 100vh;
-    position: relative;
-    left: 100px;
-    background-color: #000;
-    border-radius: 10px;
-    transform: skewX(-10deg);
-  }
-}
+@import '@/styles/login.scss';
 </style>

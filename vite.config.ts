@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import presets from './presets/presets'
+import { createSvg } from './src/icons/index'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -8,7 +9,7 @@ export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd())
   return defineConfig({
     base: env.VITE_ENV === 'dev' ? '/' : './',
-    plugins: presets(),
+    plugins: [...presets(), createSvg('./src/icons/svg/')],
     // alias别名设置
     resolve: {
       alias: {
